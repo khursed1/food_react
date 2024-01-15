@@ -1,45 +1,44 @@
 import ResturantCard from "./ResturantCard"
 import { useState } from "react";
-const [DumbyData]=useState([
-  {
-    "restaurantName": "Tasty Bites",
-    "cuisine": "Italian",
-    "rating": 4.5,
-    "price": "$$$"
-  },
-  {
-    "restaurantName": "Spicy Delight",
-    "cuisine": "Mexican",
-    "rating": 3.8,
-    "price": "$$"
-  },
-  {
-    "restaurantName": "Sushi Haven",
-    "cuisine": "Japanese",
-    "rating": 4.2,
-    "price": "$$$"
-  },
-  {
-    "restaurantName": "Flavors of India",
-    "cuisine": "Indian",
-    "rating": 4.0,
-    "price": "$$"
-  },
-  {
-    "restaurantName": "Burger Paradise",
-    "cuisine": "American",
-    "rating": 4.1,
-    "price": "$"
-  }
-]);
-console.log(DumbyData[0])
 const Body = () => {
+  const [DumbyData, SetDumbyData]=useState([
+    {
+      "restaurantName": "Tasty Bites",
+      "cuisine": "Italian",
+      "rating": 4.5,
+      "price": "$$$"
+    },
+    {
+      "restaurantName": "Spicy Delight",
+      "cuisine": "Mexican",
+      "rating": 3.8,
+      "price": "$$"
+    },
+    {
+      "restaurantName": "Sushi Haven",
+      "cuisine": "Japanese",
+      "rating": 4.2,
+      "price": "$$$"
+    },
+    {
+      "restaurantName": "Flavors of India",
+      "cuisine": "Indian",
+      "rating": 4.0,
+      "price": "$$"
+    },
+    {
+      "restaurantName": "Burger Paradise",
+      "cuisine": "American",
+      "rating": 4.1,
+      "price": "$"
+    }
+  ]);
     return (
       <div className="body">
         <div className="filter">
             <button className="filter-btn" onClick={()=>{
               let Ddata=DumbyData.filter((resData)=>resData.rating>=4);
-              console.log(Ddata)
+              SetDumbyData(Ddata);
             }  
             }>Top rated Resturants</button>
         </div>
