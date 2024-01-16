@@ -1,56 +1,55 @@
 import ResturantCard from "./ResturantCard"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Shimer from "./Shimer";
 const Body = () => {
-  const [DumbyData, SetDumbyData]=useState([
-    {
-      "restaurantName": "Tasty Bites",
-      "cuisine": "Italian",
-      "rating": 4.5,
-      "price": "$$$"
-    },
-    {
-      "restaurantName": "Spicy Delight",
-      "cuisine": "Mexican",
-      "rating": 3.8,
-      "price": "$$"
-    },
-    {
-      "restaurantName": "Sushi Haven",
-      "cuisine": "Japanese",
-      "rating": 4.2,
-      "price": "$$$"
-    },
-    {
-      "restaurantName": "Flavors of India",
-      "cuisine": "Indian",
-      "rating": 4.0,
-      "price": "$$"
-    },
-    {
-      "restaurantName": "Burger Paradise",
-      "cuisine": "American",
-      "rating": 4.1,
-      "price": "$"
-    }
-  ]);
-    return (
-      <div className="body">
-        <div className="filter">
-            <button className="filter-btn" onClick={()=>{
-              let Ddata=DumbyData.filter((resData)=>resData.rating>=4);
-              SetDumbyData(Ddata);
-            }  
-            }>Top rated Resturants</button>
-        </div>
-        <div className="res-container">
-          {
-            DumbyData.map((rest, index) => (
-              <ResturantCard key={index} resData={rest} />
-            ))
-          }
-        </div>
-  
-      </div>
-    )
+  const [DumbyData, SetDumbyData] = useState([]);
+  const [searchText, setSearchText] = useState(" ");
+  const [FilteredRes, setFilteredRes] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.5397507&lng=88.3789178&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+    const json = await data.json();
+    SetDumbyData(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
+    setFilteredRes(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
+  };
+  if (DumbyData.length === 0) {
+    return <>
+      <Shimer />
+    </>
   }
-export default Body;
+  return (
+    <div className="body">
+      <div className="filter">
+        <div className="search">
+          <input type="text" className="search-box" value={searchText} onChange={(e) => {
+            setSearchText(e.target.value)
+          }} />
+          <button onClick={
+            () => {
+              const lowerCaseSearch = searchText.trim().toLowerCase();
+              const filteredRes = DumbyData.filter((resData) =>
+                resData.info.name.toLowerCase().includes(lowerCaseSearch)
+              );
+              setFilteredRes(filteredRes);
+
+            }
+          }>Search</button>
+        </div>
+        <button className="filter-btn" onClick={() => {
+        }
+        }>Top rated Resturants</button>
+      </div>
+      <div className="res-container">
+        {
+          FilteredRes.map((rest, index) => (
+            <ResturantCard key={index} resData={rest} />
+          ))
+        }
+      </div>
+
+    </div>
+  )
+}
+export default Body; 
