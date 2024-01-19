@@ -11,6 +11,7 @@ const Body = () => {
   const fetchData = async () => {
     const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.5397507&lng=88.3789178&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
     const json = await data.json();
+    console.log(json)
     SetDumbyData(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
     setFilteredRes(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
   };
