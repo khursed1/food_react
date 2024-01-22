@@ -1,34 +1,36 @@
-import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import useResturantMenu from "../utils/useFetchMenu"
+import ResturantCatogry from "./ResturantCatogry";
+import { useState } from "react";
 const ResturantMenu = () => {
-    const [resMenu, setResMenu] = useState("");
-    useEffect(() => {
-        fetchmenu();
-    }, []);
-    const fetchmenu = async () => {
-        const data = await fetch("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=22.5644255&lng=88.37825610000002&restaurantId=50461&catalog_qa=undefined&submitAction=ENTER");
-        const jsons = await data.json();
-        setResMenu(jsons);
-
-    };
-
-
+    const [resOpen, setResOpen] = useState(0);
+    let key = 1;
+    const { resID } = useParams();
+    const resMenu = useResturantMenu(resID);
     if (!resMenu) {
         // Render loading state or return null
         return <p>Loading...</p>;
     }
-    console.log(resMenu);
+
     const { name, cuisines, costForTwoMessage, } = resMenu.data.cards[0]?.card?.card?.info;
-
-
+    const catogries = resMenu?.data?.cards[2]?.groupedCard
+        ?.cardGroupMap?.REGULAR.cards.filter(c => c.card?.card?.["@type"] == "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory")
     return (
-        <div className="menu">
-            <h1>{name}</h1>
-            <p>
+        <div className="text-center">
+            <h1 className="font-semibold m-3 text-2xl">{name}</h1>
+            <p className="font-semibold text-lg">
                 {cuisines.join(', ')}:-
 
                 {costForTwoMessage}
 
             </p>
+            {catogries.map((catogry, index) => (
+                <ResturantCatogry
+                    key={++key}
+                    data={catogry?.card?.card}
+                    showitems={index == resOpen ? true : false}
+                    setResOpen={() => setResOpen(index)} />
+            ))}
         </div>
     )
 }

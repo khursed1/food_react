@@ -8,7 +8,6 @@ import About from './components/About'
 import Error from './components/Error'
 import Contact from './components/Contact'
 import ResturantMenu from './components/ResturantMenu'
-
 const AppLayout = () => {
   return (
     <div className="app">

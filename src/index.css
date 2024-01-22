@@ -1,4 +1,7 @@
-.header {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/*.header {
   display: flex;
   justify-content: space-between;
   border: 1.5px solid rgb(110, 107, 107);
@@ -78,3 +81,9 @@
   padding:10px;
   margin-left: 15px;
 }
+.res-container>a{
+  text-decoration: none;
+  color: rgb(56, 56, 56);
+  padding: 0;
+  margin: 0;
+}*/
