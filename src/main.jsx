@@ -24,7 +24,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
-      },
+      },//this is comment
       {
         path: "/",
         element: <Body />,
