@@ -1,14 +1,13 @@
 import ItemList from "./ItemList";
 import { useState } from "react";
 const ResturantCatogry = ({ data, showitems, setResOpen }) => {
-    let isOpen = 0;
-    // const[showTag, setShowTag]=useState(false)
+const [isOpen, setIsOpen] = useState(false);
     const { title } = data;
     const handleClick = () => {
-        showitems ? setResOpen(null) : setResOpen();
-
+        isOpen ? setResOpen(null) : setResOpen();
+        setIsOpen(true);
+        console.log(isOpen)
     }
-
     return (
         <div>
 
