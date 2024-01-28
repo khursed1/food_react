@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+    const cartData = useSelector((store) => store.cart.items);
+    console.log(cartData)
     const [Btn, setBtn] = useState("login");
     const online = useOnlineStatus();
+    const data = useContext(UserContext);//UseContext is used to use the context
     return (
 
         <div className="flex justify-between bg-gray-50">
@@ -18,10 +23,11 @@ const Header = () => {
                     <li className="px-2"><Link to="/">Home</Link></li>
                     <li className="px-2"><Link to="/about">About us</Link></li>
                     <li className="px-2"><Link to="/contact">Contact</Link></li>
-                    <li className="px-2">Cart</li>
+                    <li className="px-2 font-medium"><Link to="/cart">Cart-{cartData.length}</Link></li>
                     <button className="butn" onClick={() => {
                         Btn == "login" ? setBtn("log out") : setBtn("login");
                     }}>{Btn}</button>
+                    <li className="font-medium pl-2">{data.logedInUser}</li>
                 </ul>
             </div>
         </div>

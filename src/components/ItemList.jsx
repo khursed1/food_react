@@ -1,5 +1,13 @@
 import { MenuImg } from "../utils/Constant";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 const ItemList = ({ items }) => {
+    /**Dispach function is predefinely given by useDispach hook */
+    const dispatch = useDispatch();
+    const addToCart = (props) => {
+        //As soon as anyone click on this button I want to dispatch an action
+        dispatch(addItem(props))
+    }
     return (
         <div>
             {items.map((item) => (
@@ -13,12 +21,12 @@ const ItemList = ({ items }) => {
                             <p className="text-xs">{item.card.info.description}</p>
                         </div>
                         <div className="w-3/12">
-                        <div className="absolute">
-                            <button className="bg-gray-500  text-white p-1 rounded-lg ml-12 hover:bg-gray-600">Add +</button>
+                            <div className="absolute">
+                                <button className="bg-gray-500  text-white p-1 rounded-lg ml-12 hover:bg-gray-600" onClick={()=>addToCart(item)}>Add +</button>
                             </div>
-                            {item.card.info.imageId?(<img src={MenuImg + item.card.info.imageId} className="w-32 h-24 m-auto rounded-lg shadow-2xl" />):(null)}
-                            
-                            </div>
+                            {item.card.info.imageId ? (<img src={MenuImg + item.card.info.imageId} className="w-32 h-24 m-auto rounded-lg shadow-2xl" />) : (null)}
+
+                        </div>
                     </div>
                 </div>
 
